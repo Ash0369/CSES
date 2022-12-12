@@ -106,3 +106,65 @@ int main()
     }
     return 0;
 }
+
+
+//Method-3 : Taking mod in orginal way 
+
+
+#include<bits/stdc++.h>
+using namespace std;
+#define fast ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+#define ll long long
+
+
+int main()
+{
+    fast;
+    ll int mod=(1e9+7);
+    int n;
+    cin>>n;
+    ll int req=n*(n+1)/2;
+    if(req%2!=0)
+    {
+        cout<<0<<endl;
+    }
+    else
+    {
+        req=req>>1;
+        ll int dp[n+1][req+1];//dp[i][j]
+        //No of ways such that we make sum j till ith index
+        dp[0][0]=1;
+        for(int index=0;index<=n;index++)
+        {
+            for(int sum=0;sum<=req;sum++)
+            {
+                //Base case when index==0
+                if(index==0)
+                {
+                    //so whatever sum is we cannot choose 
+                    //but if sum==0 then 1 way
+                    if(sum==0)
+                    {
+                        continue;
+                    }
+                    dp[index][sum]=0;
+                    continue;
+                }
+                ll int pick=0;
+                ll int nt_pick=0;
+
+                
+                nt_pick=dp[index-1][sum];
+                if(sum>=index)
+                {
+                    pick=dp[index-1][sum-index];
+                }
+                dp[index][sum]=(pick+nt_pick)%mod;
+            }
+        }
+
+        cout<<(dp[n][req]*500000004)%mod<<endl;//mmi of 2
+
+    }
+    return 0;
+}
